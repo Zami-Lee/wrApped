@@ -6,6 +6,9 @@ import 'photo_page.dart';
 
 void main() => runApp(FoodSocialMediaApp());
 
+Color appBarColour = const Color.fromRGBO(219, 250, 165, 100);
+Color appBarTextColour = const Color(0xFF485868);
+
 class FoodSocialMediaApp extends StatefulWidget {
   @override
   _FoodSocialMediaAppState createState() => _FoodSocialMediaAppState();
@@ -21,9 +24,6 @@ class _FoodSocialMediaAppState extends State<FoodSocialMediaApp> {
 
   @override
   Widget build(BuildContext context) {
-
-    Color appBarColour = const Color.fromRGBO(219, 250, 165, 100);
-    Color appBarTextColour = const Color(0xFF485868);
 
     return MaterialApp(
       title: 'wrapped',

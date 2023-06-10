@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+Color mainTextColour = const Color(0xFF485868);
+Color boxColour = const Color.fromRGBO(219, 250, 165, 100);
+
 class HomePage extends StatefulWidget {
-  // const HomePage({super.key});
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -13,12 +15,9 @@ class _HomePageState extends State<HomePage> {
   AssetImage profilePhoto = const AssetImage('assets/images/cake.jpg');
   String username = 'cake cake';
   String handle = '@cake_cake_1928';
-  int widgetCount = 0;
+  int _widgetCount = 0;
 
-  List<Widget> userWidgets = [];
-
-  Color mainTextColour = const Color(0xFF485868);
-  Color boxColour = const Color.fromRGBO(219, 250, 165, 100);
+  List<Widget> _userWidgets = [];
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +43,21 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(color: mainTextColour, fontSize: 16),
             ),
             const SizedBox(height: 20),
+            (_widgetCount == 0 || _widgetCount > 1) ?
             Text(
-              "you have $widgetCount widget(s) currently.",
+              "you have $_widgetCount widgets.",
+              style: TextStyle(color: mainTextColour)
+            ) :
+            Text(
+              "you have $_widgetCount widget.",
               style: TextStyle(color: mainTextColour)
             ),
+            const SizedBox(height: 10),
+            if (_widgetCount == 0)
+              Text(
+                "add more widgets to make your homepage more egg-citing ;)",
+                style: TextStyle(color: mainTextColour, fontSize: 12)
+              ),
             const SizedBox(height: 20),
             ElevatedButton(
               style: ButtonStyle(
@@ -70,12 +80,10 @@ class _HomePageState extends State<HomePage> {
                                 if (isSelected) {
                                   // Widget1 is selected
                                   Widget1 widget = const Widget1();
-                                  userWidgets.add(widget);
-                                  widgetCount += 1;
+                                  _userWidgets.add(widget);
                                 } else {
                                   // Widget1 is deselected
-                                  userWidgets.removeWhere((widget) => widget is Widget1);
-                                  widgetCount -= 1;
+                                  _userWidgets.removeWhere((widget) => widget is Widget1);
                                 }
                               },
                             ),
@@ -87,12 +95,10 @@ class _HomePageState extends State<HomePage> {
                                 if (isSelected) {
                                   // Widget2 is selected
                                   Widget2 widget = const Widget2();
-                                  userWidgets.add(widget);
-                                  widgetCount += 1;
+                                  _userWidgets.add(widget);
                                 } else {
                                   // Widget2 is deselected
-                                  userWidgets.removeWhere((widget) => widget is Widget2);
-                                  widgetCount -= 1;
+                                  _userWidgets.removeWhere((widget) => widget is Widget2);
                                 }
                               },
                             ),
@@ -104,26 +110,29 @@ class _HomePageState extends State<HomePage> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
+                              Set<Widget> uniqueSet = Set<Widget>.from(_userWidgets);
+                              _userWidgets = uniqueSet.toList();
+                              _widgetCount = _userWidgets.length;
                             });
                             // Close the popup
                             Navigator.of(context).pop();
                           },
-                          child: const Text('add widgets'),
+                          child: const Text('edit widgets'),
                         ),
                       ],
                     );
                   },
                 );
               },
-              child: const Text('Add Widget'),
+              child: const Text('edit widgets'),
             ),
           Expanded(
               child: ListView.builder(
-                itemCount: userWidgets.length,
+                itemCount: _userWidgets.length,
                 itemBuilder: (BuildContext context, int index) {
                   // Build each widget based on the index
 
-                  Widget currentWidget = userWidgets[index];
+                  Widget currentWidget = _userWidgets[index];
                   return currentWidget;
                 },
               ),
