@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   AssetImage profilePhoto = const AssetImage('assets/images/cake.jpg');
-  String username = 'cake cake';
+  String username = 'potato cake';
   String handle = '@cake_cake_1928';
   int _widgetCount = 0;
 
