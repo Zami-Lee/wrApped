@@ -6,8 +6,8 @@ import 'photo_page.dart';
 
 void main() => runApp(FoodSocialMediaApp());
 
-Color appBarColour = const Color.fromRGBO(219, 250, 165, 100);
-Color appBarTextColour = const Color(0xFF485868);
+Color appBarColour = const Color(0xFFF88DAD);
+Color appBarTextColour = const Color(0xFF6F5E76);
 
 class FoodSocialMediaApp extends StatefulWidget {
   @override

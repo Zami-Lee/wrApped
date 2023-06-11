@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
-Color mainTextColour = const Color(0xFF485868);
-Color boxColour = const Color.fromRGBO(219, 250, 165, 100);
+Color mainTextColour =  const Color(0xFF6F5E76);
+Color boxColour = const Color(0xFFCEB5E7);
+Color box2Colour = const Color(0xFFF9E9EC);
+
+double customWidgetWidth = 500;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,7 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   AssetImage profilePhoto = const AssetImage('assets/images/cake.jpg');
   String username = 'potato cake';
-  String handle = '@cake_cake_1928';
+  String handle = '@potato_cake_124';
   int _widgetCount = 0;
 
   List<Widget> _userWidgets = [];
@@ -138,7 +141,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
-        ),
+        )
       ),
     );
   }
@@ -190,17 +193,82 @@ class Widget1 extends StatefulWidget {
 }
 
 class _Widget1State extends State<Widget1> {
+  int drinksCost = 34;
+  int mealsCost = 103;
+  int groceriesCost = 67;
+
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: Text(
-                      "Widget 1",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  );
+    return SizedBox(
+                    width: customWidgetWidth + 50,
+                    height: 250,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                        child:
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 20),
+                              Text("your total spendings:",
+                                style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 20),
+                              Container(
+                                width: customWidgetWidth,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  color: box2Colour,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: spendingsTextWidget(item: "Drinks", cost: drinksCost),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Expanded(
+                                      child: spendingsTextWidget(item: "Meals", cost: mealsCost),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Expanded(
+                                      child: spendingsTextWidget(item: "Groceries", cost: groceriesCost),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ]
+                          )
+                        )
+                    );
   }
+}
+
+class spendingsTextWidget extends StatelessWidget {
+  String item;
+  int cost;
+
+  spendingsTextWidget({required this.item, required this.cost});
+
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          '$item: ',
+          style: TextStyle(fontWeight: FontWeight.bold, color: mainTextColour, fontSize: 16),
+          textAlign: TextAlign.left,
+        ),
+        Text(
+          '\$$cost',
+          style: TextStyle(color: mainTextColour, fontSize: 16),
+          textAlign: TextAlign.left,
+        ),
+      ],
+    );
+  }
+
 }
 
 class Widget2 extends StatefulWidget {
