@@ -21,6 +21,11 @@ class _HomePageState extends State<HomePage> {
   int _widgetCount = 0;
 
   List<Widget> _userWidgets = [];
+  // List<Widget> get userWidgets => _userWidgets;
+
+  // bool _widgetInUserWidgets(Widget widget) {
+  //   return _userWidgets.contains(widget);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               handle,
               style: TextStyle(color: mainTextColour, fontSize: 16),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             (_widgetCount == 0 || _widgetCount > 1) ?
             Text(
               "you have $_widgetCount widgets.",
@@ -59,7 +64,7 @@ class _HomePageState extends State<HomePage> {
             if (_widgetCount == 0)
               Text(
                 "add more widgets to make your homepage more egg-citing ;)",
-                style: TextStyle(color: mainTextColour, fontSize: 12)
+                style: TextStyle(color: mainTextColour, fontSize: 12, fontWeight: FontWeight.w300)
               ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -72,12 +77,11 @@ class _HomePageState extends State<HomePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text('choose widget'),
+                      title: Text('choose your widgets', style: TextStyle(color: mainTextColour)),
                       content: SingleChildScrollView(
                         child: Column(
                           children: [
                             SelectableWidget(
-                              child: const Widget1(),
                               onSelect: (isSelected) {
                                 // Handle the selection state change for Widget1
                                 if (isSelected) {
@@ -89,10 +93,11 @@ class _HomePageState extends State<HomePage> {
                                   _userWidgets.removeWhere((widget) => widget is Widget1);
                                 }
                               },
+                              // initiallyInUserWidgets: _widgetInUserWidgets(const Widget1()),
+                              child: const Widget1(),
                             ),
                             const SizedBox(height: 20),
                             SelectableWidget(
-                              child: const Widget2(),
                               onSelect: (isSelected) {
                                 // Handle the selection state change for Widget1
                                 if (isSelected) {
@@ -104,6 +109,8 @@ class _HomePageState extends State<HomePage> {
                                   _userWidgets.removeWhere((widget) => widget is Widget2);
                                 }
                               },
+                              // initiallyInUserWidgets: _widgetInUserWidgets(const Widget2()),
+                              child: const Widget2(),
                             ),
                             // Add more SelectableWidget instances for other widgets
                           ],
@@ -111,6 +118,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       actions: [
                         ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(boxColour),
+                          ),
                           onPressed: () {
                             setState(() {
                               Set<Widget> uniqueSet = Set<Widget>.from(_userWidgets);
@@ -120,14 +130,14 @@ class _HomePageState extends State<HomePage> {
                             // Close the popup
                             Navigator.of(context).pop();
                           },
-                          child: const Text('edit widgets'),
+                          child: const Text('select widgets', style: TextStyle(color: Colors.white)),
                         ),
                       ],
                     );
                   },
                 );
               },
-              child: const Text('edit widgets'),
+              child: const Text('select widgets'),
             ),
           Expanded(
               child: ListView.builder(
@@ -150,10 +160,12 @@ class _HomePageState extends State<HomePage> {
 class SelectableWidget extends StatefulWidget {
   final Widget child;
   final ValueChanged<bool> onSelect;
+  // final bool initiallyInUserWidgets;
 
   const SelectableWidget({
     required this.child,
     required this.onSelect,
+    // required this.initiallyInUserWidgets
   });
 
   @override
@@ -161,7 +173,14 @@ class SelectableWidget extends StatefulWidget {
 }
 
 class _SelectableWidgetState extends State<SelectableWidget> {
+  // TODO: isSelected is true if widget alreayd in userWidgets
   bool isSelected = false;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   isSelected = widget.initiallyInUserWidgets;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -279,15 +298,103 @@ class Widget2 extends StatefulWidget {
 }
 
 class _Widget2State extends State<Widget2> {
+  String restaurantAImage = 'assets/images/icecream-truck.jpg';
+  String restaurantBImage = 'assets/images/bakery.jpg';
+  String restaurantCImage = 'assets/images/burger-restaurant.jpg';
+
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: Text(
-                      "Widget 2",
-                      style: TextStyle(fontSize: 20),
+    return SizedBox(
+      width: customWidgetWidth + 50,
+      height: 400,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20.0),
+        child: Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+                Text("your most expensive meals this month:",
+                  style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              const SizedBox(height: 20),
+              RestaurantRow(restaurantAImage: restaurantAImage, restaurantName: "Restaurant A", price: 60, ranking: 01),
+              const SizedBox(height: 10),
+              RestaurantRow(restaurantAImage: restaurantBImage, restaurantName: "Restaurant B", price: 30, ranking: 02),
+              const SizedBox(height: 10),
+              RestaurantRow(restaurantAImage: restaurantCImage, restaurantName: "Restaurant C", price: 20, ranking: 03),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class RestaurantRow extends StatelessWidget {
+  final String restaurantAImage;
+  final String restaurantName;
+  final int price;
+  final int ranking;
+
+  const RestaurantRow({
+    required this.restaurantAImage,
+    required this.restaurantName,
+    required this.price,
+    required this.ranking,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                child: Flexible(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      restaurantAImage.toString(),
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
                     ),
-                  );
+                  ),
+                ),
+              ),
+              const SizedBox(width: 30),
+              Container(
+                width: 100,
+                height: 100,
+                alignment: Alignment.topLeft,
+                child: Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                      restaurantName,
+                      style: TextStyle(fontSize: 14, color: mainTextColour, fontStyle: FontStyle.italic,fontWeight: FontWeight.w300),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                      '\$$price',
+                      style: TextStyle(fontSize: 18, color: mainTextColour, fontWeight: FontWeight.w500),
+                      ),
+                    ]
+                  ),
+                ),
+              ),
+              const SizedBox(width: 30),
+              Container(
+                width: 100,
+                height: 100,
+                alignment: Alignment.topRight,
+                child: Flexible(
+                  child: Text('$ranking', style: TextStyle(fontSize: 18, color: mainTextColour)),
+                ),
+              ),
+            ],
+          );
   }
 }

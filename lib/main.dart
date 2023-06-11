@@ -26,11 +26,11 @@ class _FoodSocialMediaAppState extends State<FoodSocialMediaApp> {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      title: 'wrapped',
+      title: 'wrApped',
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            'wrapped',
+            'wrApped',
             style: TextStyle(
               color: appBarTextColour,
               fontSize: 16,
