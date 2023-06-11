@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                 "add custom widgets to make your homepage more egg-citing ;)",
                 style: TextStyle(color: mainTextColour, fontSize: 12, fontWeight: FontWeight.w300)
               ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(boxColour),
@@ -139,6 +139,7 @@ class _HomePageState extends State<HomePage> {
               },
               child: const Text('select widgets'),
             ),
+            const SizedBox(height: 20),
             Container(
               alignment: Alignment.centerLeft,
               child: const CalendarWidget(),

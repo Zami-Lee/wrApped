@@ -21,7 +21,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       padding: EdgeInsets.symmetric(horizontal: customWidgetPaddingLeft),
       child: SizedBox(
         width: customWidgetWidth,
-        height: 440,
+        height: 455,
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,32 +35,43 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Align(
               alignment: Alignment.centerLeft,
-              child: TableCalendar(
-                calendarFormat: _calendarFormat,
-                availableCalendarFormats: const {
-                  CalendarFormat.month: 'Month',
-                  // CalendarFormat.week: 'Week',
-                },
-                focusedDay: _focusedDay,
-                firstDay: DateTime.utc(2023, 1, 1),
-                lastDay: DateTime.utc(2023, 12, 31),
-                selectedDayPredicate: (day) {
-                  return isSameDay(_selectedDay, day);
-                },
-                onDaySelected: (selectedDay, focusedDay) {
-                  setState(() {
-                    _selectedDay = selectedDay;
-                    _focusedDay = focusedDay;
-                  });
-                },
-                // onFormatChanged: (format) {
-                //   setState(() {
-                //     _calendarFormat = format;
-                //   });
-                // },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: box2Colour, // Set the desired background color
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TableCalendar(
+                  calendarStyle: CalendarStyle(
+                    selectedDecoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: boxColour, // Change the color here for selected date
+                    ),
+                    todayDecoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: boxColour, // Change the color here for today's date
+                    ),
+                  ),
+                  calendarFormat: _calendarFormat,
+                  availableCalendarFormats: const {
+                    CalendarFormat.month: 'Month',
+                    // CalendarFormat.week: 'Week',
+                  },
+                  focusedDay: _focusedDay,
+                  firstDay: DateTime.utc(2023, 1, 1),
+                  lastDay: DateTime.utc(2023, 12, 31),
+                  selectedDayPredicate: (day) {
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDay = selectedDay;
+                      _focusedDay = focusedDay;
+                    });
+                  },
+                ),
               ),
             ),
           ],
