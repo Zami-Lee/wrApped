@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:flutter_calendar_carousel/classes/event_list.dart';
+import 'package:table_calendar/table_calendar.dart';
+
 
 Color mainTextColour =  const Color(0xFF6F5E76);
 Color boxColour = const Color(0xFFCEB5E7);
 Color box2Colour = const Color(0xFFF9E9EC);
 
 double customWidgetWidth = 500;
+double customWidgetPaddingLeft = 40.0;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,16 +26,12 @@ class _HomePageState extends State<HomePage> {
   int _widgetCount = 0;
 
   List<Widget> _userWidgets = [];
-  // List<Widget> get userWidgets => _userWidgets;
-
-  // bool _widgetInUserWidgets(Widget widget) {
-  //   return _userWidgets.contains(widget);
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+  return Scaffold(
+    body: SingleChildScrollView(
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -63,7 +64,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             if (_widgetCount == 0)
               Text(
-                "add more widgets to make your homepage more egg-citing ;)",
+                "add widgets to make your homepage more egg-citing ;)",
                 style: TextStyle(color: mainTextColour, fontSize: 12, fontWeight: FontWeight.w300)
               ),
             const SizedBox(height: 20),
@@ -83,34 +84,32 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             SelectableWidget(
                               onSelect: (isSelected) {
-                                // Handle the selection state change for Widget1
+                                // Handle the selection state change for MonthlySpendWidget
                                 if (isSelected) {
-                                  // Widget1 is selected
-                                  Widget1 widget = const Widget1();
+                                  // MonthlySpendWidget is selected
+                                  MonthlySpendWidget widget = const MonthlySpendWidget();
                                   _userWidgets.add(widget);
                                 } else {
-                                  // Widget1 is deselected
-                                  _userWidgets.removeWhere((widget) => widget is Widget1);
+                                  // MonthlySpendWidget is deselected
+                                  _userWidgets.removeWhere((widget) => widget is MonthlySpendWidget);
                                 }
                               },
-                              // initiallyInUserWidgets: _widgetInUserWidgets(const Widget1()),
-                              child: const Widget1(),
+                              child: const MonthlySpendWidget(),
                             ),
                             const SizedBox(height: 20),
                             SelectableWidget(
                               onSelect: (isSelected) {
-                                // Handle the selection state change for Widget1
+                                // Handle the selection state change for MonthlySpendWidget
                                 if (isSelected) {
-                                  // Widget2 is selected
-                                  Widget2 widget = const Widget2();
+                                  // MostExpMealsWidget is selected
+                                  MostExpMealsWidget widget = const MostExpMealsWidget();
                                   _userWidgets.add(widget);
                                 } else {
-                                  // Widget2 is deselected
-                                  _userWidgets.removeWhere((widget) => widget is Widget2);
+                                  // MostExpMealsWidget is deselected
+                                  _userWidgets.removeWhere((widget) => widget is MostExpMealsWidget);
                                 }
                               },
-                              // initiallyInUserWidgets: _widgetInUserWidgets(const Widget2()),
-                              child: const Widget2(),
+                              child: const MostExpMealsWidget(),
                             ),
                             // Add more SelectableWidget instances for other widgets
                           ],
@@ -139,23 +138,29 @@ class _HomePageState extends State<HomePage> {
               },
               child: const Text('select widgets'),
             ),
-          Expanded(
-              child: ListView.builder(
-                itemCount: _userWidgets.length,
-                itemBuilder: (BuildContext context, int index) {
-                  // Build each widget based on the index
-
-                  Widget currentWidget = _userWidgets[index];
-                  return currentWidget;
-                },
-              ),
+            Container(
+              alignment: Alignment.center,
+              child: const CalendarWidget(),
+            ),
+            const SizedBox(height: 20),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _userWidgets.length,
+              itemBuilder: (BuildContext context, int index) {
+                // Build each widget based on the index
+                Widget currentWidget = _userWidgets[index];
+                return currentWidget;
+              },
             ),
           ],
-        )
+        ),
       ),
-    );
-  }
+    ),
+  );
 }
+}
+
 
 class SelectableWidget extends StatefulWidget {
   final Widget child;
@@ -204,14 +209,14 @@ class _SelectableWidgetState extends State<SelectableWidget> {
   }
 }
 
-class Widget1 extends StatefulWidget {
-  const Widget1({super.key});
+class MonthlySpendWidget extends StatefulWidget {
+  const MonthlySpendWidget({super.key});
 
   @override
-  State<Widget1> createState() => _Widget1State();
+  State<MonthlySpendWidget> createState() => _MonthlySpendWidgetState();
 }
 
-class _Widget1State extends State<Widget1> {
+class _MonthlySpendWidgetState extends State<MonthlySpendWidget> {
   int drinksCost = 34;
   int mealsCost = 103;
   int groceriesCost = 67;
@@ -219,85 +224,87 @@ class _Widget1State extends State<Widget1> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-                    width: customWidgetWidth + 50,
-                    height: 250,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                        child:
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
-                              Text("your total spendings:",
-                                style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 20),
-                              Container(
-                                width: customWidgetWidth,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  color: box2Colour,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: spendingsTextWidget(item: "Drinks", cost: drinksCost),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Expanded(
-                                      child: spendingsTextWidget(item: "Meals", cost: mealsCost),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Expanded(
-                                      child: spendingsTextWidget(item: "Groceries", cost: groceriesCost),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ]
-                          )
-                        )
-                    );
+            width: customWidgetWidth + 50,
+            height: 250,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: customWidgetPaddingLeft),
+                child:
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Text("monthly spendings:",
+                        style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        width: customWidgetWidth,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: box2Colour,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: SpendingsTextWidget(item: "Drinks", cost: drinksCost),
+                            ),
+                            const SizedBox(height: 20),
+                            Expanded(
+                              child: SpendingsTextWidget(item: "Meals", cost: mealsCost),
+                            ),
+                            const SizedBox(height: 20),
+                            Expanded(
+                              child: SpendingsTextWidget(item: "Groceries", cost: groceriesCost),
+                            ),
+                          ],
+                        ),
+                      )
+                    ]
+                  )
+                )
+            );
   }
 }
 
-class spendingsTextWidget extends StatelessWidget {
+class SpendingsTextWidget extends StatelessWidget {
   String item;
   int cost;
 
-  spendingsTextWidget({required this.item, required this.cost});
+  SpendingsTextWidget({required this.item, required this.cost});
 
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Center(
+      child: Row(
+      // mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           '$item: ',
           style: TextStyle(fontWeight: FontWeight.bold, color: mainTextColour, fontSize: 16),
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
         ),
         Text(
           '\$$cost',
           style: TextStyle(color: mainTextColour, fontSize: 16),
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
         ),
       ],
+    )
     );
   }
-
 }
 
-class Widget2 extends StatefulWidget {
-  const Widget2({super.key});
+class MostExpMealsWidget extends StatefulWidget {
+  const MostExpMealsWidget({super.key});
 
   @override
-  State<Widget2> createState() => _Widget2State();
+  State<MostExpMealsWidget> createState() => _MostExpMealsWidgetState();
 }
 
-class _Widget2State extends State<Widget2> {
+class _MostExpMealsWidgetState extends State<MostExpMealsWidget> {
   String restaurantAImage = 'assets/images/icecream-truck.jpg';
   String restaurantBImage = 'assets/images/bakery.jpg';
   String restaurantCImage = 'assets/images/burger-restaurant.jpg';
@@ -308,14 +315,14 @@ class _Widget2State extends State<Widget2> {
       width: customWidgetWidth + 50,
       height: 400,
       child: Padding(
-        padding: const EdgeInsets.only(left: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: customWidgetPaddingLeft),
         child: Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-                Text("your most expensive meals this month:",
+                Text("most expensive meals this month:",
                   style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               const SizedBox(height: 20),
@@ -347,54 +354,114 @@ class RestaurantRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-            children: [
-              Container(
-                alignment: Alignment.center,
-                child: Flexible(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      restaurantAImage.toString(),
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                    ),
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Flexible(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  restaurantAImage.toString(),
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 30),
+          Container(
+            width: 100,
+            height: 100,
+            alignment: Alignment.topLeft,
+            child: Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    restaurantName,
+                    style: TextStyle(fontSize: 14, color: mainTextColour, fontStyle: FontStyle.italic,fontWeight: FontWeight.w300),
                   ),
-                ),
-              ),
-              const SizedBox(width: 30),
-              Container(
-                width: 100,
-                height: 100,
-                alignment: Alignment.topLeft,
-                child: Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                      restaurantName,
-                      style: TextStyle(fontSize: 14, color: mainTextColour, fontStyle: FontStyle.italic,fontWeight: FontWeight.w300),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                      '\$$price',
-                      style: TextStyle(fontSize: 18, color: mainTextColour, fontWeight: FontWeight.w500),
-                      ),
-                    ]
+                  const SizedBox(height: 20),
+                  Text(
+                    '\$$price',
+                    style: TextStyle(fontSize: 18, color: mainTextColour, fontWeight: FontWeight.w500),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(width: 30),
-              Container(
-                width: 100,
-                height: 100,
-                alignment: Alignment.topRight,
-                child: Flexible(
-                  child: Text('$ranking', style: TextStyle(fontSize: 18, color: mainTextColour)),
-                ),
-              ),
-            ],
+            ),
+          ),
+          const SizedBox(width: 30),
+          Container(
+            width: 100,
+            height: 100,
+            alignment: Alignment.topRight,
+            child: Flexible(
+              child: Text('$ranking', style: TextStyle(fontSize: 18, color: mainTextColour)),
+            ),
+          ),
+        ],
+      // ),
+    );
+  }
+}
+
+class CalendarWidget extends StatefulWidget {
+  const CalendarWidget({super.key});
+
+  @override
+  State<CalendarWidget> createState() => _CalendarWidgetState();
+}
+
+class _CalendarWidgetState extends State<CalendarWidget> {
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _selectedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+            padding: EdgeInsets.symmetric(horizontal: customWidgetPaddingLeft),
+            child: SizedBox(
+              width: customWidgetWidth,
+              height: 440,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                        Text("monthly activity:",
+                          style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                  TableCalendar(
+                    calendarFormat: _calendarFormat,
+                    availableCalendarFormats: const {
+                      CalendarFormat.month: 'Month',
+                      // CalendarFormat.week: 'Week',
+                    },
+                    focusedDay: _focusedDay,
+                    firstDay: DateTime.utc(2023, 1, 1),
+                    lastDay: DateTime.utc(2023, 12, 31),
+                    selectedDayPredicate: (day) {
+                      return isSameDay(_selectedDay, day);
+                    },
+                    onDaySelected: (selectedDay, focusedDay) {
+                      setState(() {
+                        _selectedDay = selectedDay;
+                        _focusedDay = focusedDay;
+                      });
+                    },
+                    // onFormatChanged: (format) {
+                    //   setState(() {
+                    //     _calendarFormat = format;
+                    //   });
+                    // },
+                  ),
+                ],
+              )
+            )
           );
   }
 }
