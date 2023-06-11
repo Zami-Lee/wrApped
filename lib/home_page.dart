@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
-import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 
 Color mainTextColour =  const Color(0xFF6F5E76);
 Color boxColour = const Color(0xFFCEB5E7);
@@ -23,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   AssetImage profilePhoto = const AssetImage('assets/images/cake.jpg');
   String username = 'potato cake';
   String handle = '@potato_cake_124';
-  int _widgetCount = 0;
+  int _widgetCount = 1;
 
   List<Widget> _userWidgets = [];
 
@@ -54,17 +51,17 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 30),
             (_widgetCount == 0 || _widgetCount > 1) ?
             Text(
-              "you have $_widgetCount widgets.",
+              "you have $_widgetCount custom widgets.",
               style: TextStyle(color: mainTextColour)
             ) :
             Text(
-              "you have $_widgetCount widget.",
+              "you have $_widgetCount custom widget.",
               style: TextStyle(color: mainTextColour)
             ),
             const SizedBox(height: 10),
-            if (_widgetCount == 0)
+            if (_widgetCount == 1)
               Text(
-                "add widgets to make your homepage more egg-citing ;)",
+                "add custom widgets to make your homepage more egg-citing ;)",
                 style: TextStyle(color: mainTextColour, fontSize: 12, fontWeight: FontWeight.w300)
               ),
             const SizedBox(height: 20),
@@ -139,7 +136,7 @@ class _HomePageState extends State<HomePage> {
               child: const Text('select widgets'),
             ),
             Container(
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               child: const CalendarWidget(),
             ),
             const SizedBox(height: 20),
@@ -316,15 +313,17 @@ class _MostExpMealsWidgetState extends State<MostExpMealsWidget> {
       height: 400,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: customWidgetPaddingLeft),
-        child: Expanded(
+        child: Flexible(
+          fit: FlexFit.loose, // Allow the widget to shrink if needed
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-                Text("most expensive meals this month:",
-                  style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+              Text(
+                "most expensive meals this month:",
+                style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 20),
               RestaurantRow(restaurantAImage: restaurantAImage, restaurantName: "Restaurant A", price: 60, ranking: 01),
               const SizedBox(height: 10),
@@ -354,58 +353,54 @@ class RestaurantRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Flexible(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  restaurantAImage.toString(),
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
-              ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              restaurantAImage.toString(),
+              width: 100,
+              height: 100,
+              fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 30),
-          Container(
+        ),
+        const SizedBox(width: 30),
+        Expanded(
+          child: Container(
             width: 100,
             height: 100,
             alignment: Alignment.topLeft,
-            child: Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    restaurantName,
-                    style: TextStyle(fontSize: 14, color: mainTextColour, fontStyle: FontStyle.italic,fontWeight: FontWeight.w300),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    '\$$price',
-                    style: TextStyle(fontSize: 18, color: mainTextColour, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  restaurantName,
+                  style: TextStyle(fontSize: 14, color: mainTextColour, fontStyle: FontStyle.italic, fontWeight: FontWeight.w300),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  '\$$price',
+                  style: TextStyle(fontSize: 18, color: mainTextColour, fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: 30),
-          Container(
-            width: 100,
-            height: 100,
-            alignment: Alignment.topRight,
-            child: Flexible(
-              child: Text('$ranking', style: TextStyle(fontSize: 18, color: mainTextColour)),
-            ),
-          ),
-        ],
-      // ),
+        ),
+        const SizedBox(width: 30),
+        Container(
+          width: 100,
+          height: 100,
+          alignment: Alignment.topRight,
+          child: Text('$ranking', style: TextStyle(fontSize: 18, color: mainTextColour)),
+        ),
+      ],
     );
   }
+
 }
 
 class CalendarWidget extends StatefulWidget {
@@ -423,45 +418,54 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-            padding: EdgeInsets.symmetric(horizontal: customWidgetPaddingLeft),
-            child: SizedBox(
-              width: customWidgetWidth,
-              height: 440,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                        Text("monthly activity:",
-                          style: TextStyle(color: mainTextColour, fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                  TableCalendar(
-                    calendarFormat: _calendarFormat,
-                    availableCalendarFormats: const {
-                      CalendarFormat.month: 'Month',
-                      // CalendarFormat.week: 'Week',
-                    },
-                    focusedDay: _focusedDay,
-                    firstDay: DateTime.utc(2023, 1, 1),
-                    lastDay: DateTime.utc(2023, 12, 31),
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                      });
-                    },
-                    // onFormatChanged: (format) {
-                    //   setState(() {
-                    //     _calendarFormat = format;
-                    //   });
-                    // },
-                  ),
-                ],
-              )
-            )
-          );
+      padding: EdgeInsets.symmetric(horizontal: customWidgetPaddingLeft),
+      child: SizedBox(
+        width: customWidgetWidth,
+        height: 440,
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            Text(
+              "monthly activity:",
+              style: TextStyle(
+                color: mainTextColour,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TableCalendar(
+                calendarFormat: _calendarFormat,
+                availableCalendarFormats: const {
+                  CalendarFormat.month: 'Month',
+                  // CalendarFormat.week: 'Week',
+                },
+                focusedDay: _focusedDay,
+                firstDay: DateTime.utc(2023, 1, 1),
+                lastDay: DateTime.utc(2023, 12, 31),
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                  });
+                },
+                // onFormatChanged: (format) {
+                //   setState(() {
+                //     _calendarFormat = format;
+                //   });
+                // },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
