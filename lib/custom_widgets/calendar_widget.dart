@@ -23,7 +23,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         width: customWidgetWidth,
         height: 455,
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
@@ -47,7 +46,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   calendarStyle: CalendarStyle(
                     selectedDecoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: boxColour, // Change the color here for selected date
+                      color: boxColourLight, // Change the color here for selected date
                     ),
                     todayDecoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -79,4 +78,5 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       ),
     );
   }
+
 }

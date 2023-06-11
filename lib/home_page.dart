@@ -7,6 +7,7 @@ import 'package:food_app2/custom_widgets/selectable_widget.dart';
 
 Color mainTextColour =  const Color(0xFF6F5E76);
 Color boxColour = const Color(0xFFCEB5E7);
+Color boxColourLight = Color.fromARGB(255, 221, 207, 235);
 Color box2Colour = const Color(0xFFF9E9EC);
 
 double customWidgetWidth = 500;

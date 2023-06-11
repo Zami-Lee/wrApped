@@ -69,8 +69,8 @@ class RestaurantRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(
               restaurantAImage.toString(),
-              width: 100,
-              height: 100,
+              width: 75,
+              height: 75,
               fit: BoxFit.cover,
             ),
           ),

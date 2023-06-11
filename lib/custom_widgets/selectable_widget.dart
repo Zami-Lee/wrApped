@@ -19,12 +19,6 @@ class _SelectableWidgetState extends State<SelectableWidget> {
   // TODO: isSelected is true if widget alreayd in userWidgets
   bool isSelected = false;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   isSelected = widget.initiallyInUserWidgets;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -41,7 +35,10 @@ class _SelectableWidgetState extends State<SelectableWidget> {
             width: 2.0,
           ),
         ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: widget.child,
+        ),
       ),
     );
   }
