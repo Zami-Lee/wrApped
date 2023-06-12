@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20),
             Container(
               alignment: Alignment.centerLeft,
-              child: const CalendarWidget(),
+              child: CalendarWidget(key: UniqueKey()),
             ),
             const SizedBox(height: 20),
             ListView.builder(

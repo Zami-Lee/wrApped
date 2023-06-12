@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
+
 
 import '../home_page.dart';
 
@@ -14,6 +16,71 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   final CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
+
+  final Map<String, double> _dailySpendings = {
+    "Starbucks" : 17.50,
+    "Hungry Jack's" : 23,
+    "Papa's Pizzeria" : 28,
+  };
+
+  Future<void> _showDatePopup(BuildContext context, DateTime date) async {
+    DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    String formattedDate = dateFormat.format(date);
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+          dialogBackgroundColor: Colors.white, // Set the desired background color
+        ),
+        child: AlertDialog(
+          title: Text(formattedDate, style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold)),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(boxColour),
+                  ),
+                  onPressed: () {
+                    // Perform the action for the "Add Expense" button
+                  },
+                  child: const Text('add an expense'),
+                ),
+              ),
+              const SizedBox(height: 20),
+              _dailySpendings.isNotEmpty ? Text('spendings:', style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold),) : Text('you have no recorded spendings.', style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold),),
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _dailySpendings.entries.map((entry) {
+                  String key = entry.key;
+                  double value = entry.value;
+                  return Text('$key: $value \n', style: TextStyle(color: mainTextColour));
+                }).toList(),
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(boxColour), // Set the desired background color
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('close'),
+            ),
+          ],
+        )
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +135,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
+                      _showDatePopup(context, selectedDay);
                     });
                   },
                 ),

@@ -22,7 +22,9 @@ class _MonthlySpendWidgetState extends State<MonthlySpendWidget> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: customWidgetPaddingLeft),
                 child:
-                  Column(
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -58,8 +60,10 @@ class _MonthlySpendWidgetState extends State<MonthlySpendWidget> {
                     ]
                   )
                 )
+              )
             );
   }
+
 }
 
 class SpendingsTextWidget extends StatelessWidget {
