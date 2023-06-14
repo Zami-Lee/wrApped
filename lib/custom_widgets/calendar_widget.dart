@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
-
 import '../home_page.dart';
 
 class CalendarWidget extends StatefulWidget {
@@ -27,6 +26,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     String formattedDate = dateFormat.format(date);
 
+    String expense = "expense";
+    double price = 0;
+
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -47,6 +49,50 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   ),
                   onPressed: () {
                     // Perform the action for the "Add Expense" button
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('add expense'),
+                          content: Column(
+                            children: [
+                              TextField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    expense = value;
+                                  });
+                                },
+                                decoration: const InputDecoration(
+                                  labelText: 'expense',
+                                ),
+                              ),
+                              TextField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    price = double.tryParse(value) ?? 0;
+                                  });
+                                },
+                                decoration: const InputDecoration(
+                                  labelText: 'price',
+                                ),
+                              ),
+                              ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(boxColour),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _dailySpendings[expense] = price;
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: const Text('add expense'),
+                              ),
+                            ],
+                          )
+                        );
+                      }
+                    );
                   },
                   child: const Text('add an expense'),
                 ),
@@ -56,11 +102,12 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               const SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: _dailySpendings.entries.map((entry) {
-                  String key = entry.key;
-                  double value = entry.value;
-                  return Text('$key: $value \n', style: TextStyle(color: mainTextColour));
-                }).toList(),
+                children: _dailySpendings.entries
+                  .map((entry) => Text(
+                        '${entry.key}: \$${entry.value.toStringAsFixed(2)} \n',
+                        style: TextStyle(color: mainTextColour),
+                      ))
+                  .toList(),
               ),
             ],
           ),
@@ -80,7 +127,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
