@@ -16,18 +16,62 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  final Map<String, double> _dailySpendings = {
-    "Starbucks" : 17.50,
-    "Hungry Jack's" : 23,
-    "Papa's Pizzeria" : 28,
-  };
+  String expense = "expense";
+  double price = 0;
+
+  Map<DateTime, Map<String, double>> dailySpendings = {DateTime.now() : {"Starbucks" : 17.50}};
+
+  void addExpenseDialogue(BuildContext context, DateTime date) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('add expense'),
+          content: Column(
+            children: [
+              TextField(
+                onChanged: (value) {
+                  setState(() {
+                    expense = value;
+                  });
+                },
+                decoration: const InputDecoration(
+                  labelText: 'expense',
+                ),
+              ),
+              TextField(
+                onChanged: (value) {
+                  setState(() {
+                    price = double.tryParse(value) ?? 0;
+                  });
+                },
+                decoration: const InputDecoration(
+                  labelText: 'price',
+                ),
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(boxColour),
+                ),
+                onPressed: () {
+                  setState(() {
+                    (dailySpendings[date] ??= {})[expense] = price;
+                  });
+                  Navigator.of(context).pop();
+                  // setState(() {});
+                },
+                child: const Text('add expense'),
+              ),
+            ],
+          )
+        );
+      }
+    );
+  }
 
   Future<void> _showDatePopup(BuildContext context, DateTime date) async {
     DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     String formattedDate = dateFormat.format(date);
-
-    String expense = "expense";
-    double price = 0;
 
     return showDialog(
       context: context,
@@ -48,66 +92,22 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     backgroundColor: MaterialStateProperty.all<Color>(boxColour),
                   ),
                   onPressed: () {
-                    // Perform the action for the "Add Expense" button
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('add expense'),
-                          content: Column(
-                            children: [
-                              TextField(
-                                onChanged: (value) {
-                                  setState(() {
-                                    expense = value;
-                                  });
-                                },
-                                decoration: const InputDecoration(
-                                  labelText: 'expense',
-                                ),
-                              ),
-                              TextField(
-                                onChanged: (value) {
-                                  setState(() {
-                                    price = double.tryParse(value) ?? 0;
-                                  });
-                                },
-                                decoration: const InputDecoration(
-                                  labelText: 'price',
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<Color>(boxColour),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _dailySpendings[expense] = price;
-                                    Navigator.of(context).pop();
-                                  });
-                                },
-                                child: const Text('add expense'),
-                              ),
-                            ],
-                          )
-                        );
-                      }
-                    );
+                    addExpenseDialogue(context, date);
                   },
                   child: const Text('add an expense'),
                 ),
               ),
               const SizedBox(height: 20),
-              _dailySpendings.isNotEmpty ? Text('spendings:', style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold),) : Text('you have no recorded spendings.', style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold),),
+              dailySpendings[date]?.isEmpty ?? true ? Text('you have no recorded spendings.', style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold)) : Text('spendings:', style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: _dailySpendings.entries
+                children: (dailySpendings[date]?.entries ?? [])
                   .map((entry) => Text(
                         '${entry.key}: \$${entry.value.toStringAsFixed(2)} \n',
                         style: TextStyle(color: mainTextColour),
                       ))
-                  .toList(),
+                  .toList()
               ),
             ],
           ),
