@@ -172,8 +172,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     // CalendarFormat.week: 'Week',
                   },
                   focusedDay: _focusedDay,
-                  firstDay: DateTime.utc(2023, 1, 1),
-                  lastDay: DateTime.utc(2023, 12, 31),
+                  firstDay: DateTime.utc(2022, 1, 1),
+                  lastDay: DateTime.now(),
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDay, day);
                   },
