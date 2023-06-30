@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'explore_page.dart';
-import 'home_page.dart';
-import 'photo_page.dart';
+import 'explore_page/explore_page.dart';
+import 'home_page/home_page.dart';
+import 'photo_page/photo_page.dart';
 
 void main() => runApp(FoodSocialMediaApp());
 

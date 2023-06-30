@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:food_app2/category.dart';
-import 'package:food_app2/home_page.dart';
+import 'package:food_app2/home_page/custom_widgets/category.dart';
+import 'package:food_app2/home_page/home_page.dart';
 
 class MonthlySpendCategoriesWidget extends StatefulWidget {
   const MonthlySpendCategoriesWidget({required Key key}) : super(key: key);

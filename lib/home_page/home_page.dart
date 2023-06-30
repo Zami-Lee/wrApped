@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:food_app2/custom_widgets/calendar_widget.dart';
-import 'package:food_app2/custom_widgets/category_monthly_widget.dart';
-import 'package:food_app2/custom_widgets/monthly_spend_widget.dart';
-import 'package:food_app2/custom_widgets/most_exp_meal_widget.dart';
-import 'package:food_app2/custom_widgets/selectable_widget.dart';
+import 'package:food_app2/home_page/custom_widgets/calendar_widget.dart';
+import 'package:food_app2/home_page/custom_widgets/category_monthly_widget.dart';
+import 'package:food_app2/home_page/custom_widgets/monthly_spend_widget.dart';
+import 'package:food_app2/home_page/custom_widgets/most_exp_meal_widget.dart';
+import 'package:food_app2/home_page/custom_widgets/selectable_widget.dart';
 
 Color mainTextColour =  const Color(0xFF6F5E76);
 Color boxColour = const Color(0xFFCEB5E7);
