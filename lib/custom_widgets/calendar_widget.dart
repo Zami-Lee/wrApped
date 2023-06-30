@@ -19,14 +19,17 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   String expense = "expense";
   double price = 0;
 
-  Map<DateTime, Map<String, double>> dailySpendings = {DateTime.now() : {"Starbucks" : 17.50}};
+  Map<DateTime, Map<String, double>> dailySpendings = {};
 
   void addExpenseDialogue(BuildContext context, DateTime date) {
+    DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    String formattedDate = dateFormat.format(date);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('add expense'),
+          title: Text(formattedDate, style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold)),
           content: Column(
             children: [
               TextField(
@@ -49,6 +52,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   labelText: 'price',
                 ),
               ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(boxColour),
@@ -58,10 +62,13 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     (dailySpendings[date] ??= {})[expense] = price;
                   });
                   Navigator.of(context).pop();
-                  // setState(() {});
+                  // small workaround to immediately close both
+                  Navigator.of(context).pop();
+                  // TODO: change colour of all dates with entries
                 },
                 child: const Text('add expense'),
               ),
+              const SizedBox(height: 20),
             ],
           )
         );

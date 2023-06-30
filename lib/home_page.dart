@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:food_app2/custom_widgets/calendar_widget.dart';
+import 'package:food_app2/custom_widgets/category_monthly_widget.dart';
 import 'package:food_app2/custom_widgets/monthly_spend_widget.dart';
 import 'package:food_app2/custom_widgets/most_exp_meal_widget.dart';
 import 'package:food_app2/custom_widgets/selectable_widget.dart';
 
 Color mainTextColour =  const Color(0xFF6F5E76);
 Color boxColour = const Color(0xFFCEB5E7);
-Color boxColourLight = Color.fromARGB(255, 221, 207, 235);
+Color boxColourLight = const Color.fromARGB(255, 221, 207, 235);
 Color box2Colour = const Color(0xFFF9E9EC);
 
 double customWidgetWidth = 500;
@@ -138,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 );
               },
-              child: const Text('select widgets'),
+              child: const Text('edit widgets'),
             ),
             const SizedBox(height: 20),
             Container(
@@ -146,6 +147,10 @@ class _HomePageState extends State<HomePage> {
               child: CalendarWidget(key: UniqueKey()),
             ),
             const SizedBox(height: 20),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: MonthlySpendCategoriesWidget(key: UniqueKey()),
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
