@@ -52,7 +52,7 @@ class _MonthlySpendCategoriesWidgetState extends State<MonthlySpendCategoriesWid
           BarChart(
             BarChartData(
               backgroundColor: box2Colour,
-              borderData: FlBorderData(show: false),
+              borderData: FlBorderData(show: false,),
               gridData: FlGridData(show: false),
               barGroups: userCategories.map((category) {
                 return BarChartGroupData(
