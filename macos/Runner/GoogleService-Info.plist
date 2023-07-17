@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>590268875018-92ogqap49ro2u0mh25toddr2ocvh2ojh.apps.googleusercontent.com</string>
+	<string>590268875018-8l863v2mhhhkft4f0344fuad9lltsos5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.590268875018-92ogqap49ro2u0mh25toddr2ocvh2ojh</string>
+	<string>com.googleusercontent.apps.590268875018-8l863v2mhhhkft4f0344fuad9lltsos5</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDdgdNlkCEnJx3sBoDWi0tRDwi_uFp1CpM</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.zami.wrApped</string>
+	<string>com.example.foodApp2.RunnerTests</string>
 	<key>PROJECT_ID</key>
 	<string>foodie-app-36e2a</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:590268875018:ios:40dcc9ceb9f45830dbbaf3</string>
+	<string>1:590268875018:ios:931892a66469a225dbbaf3</string>
+	<key>DATABASE_URL</key>
+	<string>https://foodie-app-36e2a-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>
