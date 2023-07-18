@@ -5,11 +5,7 @@ import 'package:food_app2/home_page/custom_widgets/category_monthly_widget.dart'
 import 'package:food_app2/home_page/custom_widgets/monthly_spend_widget.dart';
 import 'package:food_app2/home_page/custom_widgets/most_exp_meal_widget.dart';
 import 'package:food_app2/home_page/custom_widgets/selectable_widget.dart';
-
-Color mainTextColour =  const Color(0xFF6F5E76);
-Color boxColour = const Color(0xFFCEB5E7);
-Color boxColourLight = const Color.fromARGB(255, 221, 207, 235);
-Color box2Colour = const Color(0xFFF9E9EC);
+import 'package:food_app2/main.dart';
 
 double customWidgetWidth = 500;
 double customWidgetPaddingLeft = 40.0;

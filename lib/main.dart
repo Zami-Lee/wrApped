@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:food_app2/authentication_page/sign_up_page.dart';
 import 'firebase_options.dart';
 
-import 'auth_page.dart';
 import 'explore_page/explore_page.dart';
 import 'home_page/home_page.dart';
 import 'photo_page/photo_page.dart';
@@ -19,6 +19,11 @@ void main() async {
 Color appBarColour = const Color(0xFFF88DAD);
 Color appBarTextColour = const Color(0xFF6F5E76);
 
+Color mainTextColour =  const Color(0xFF6F5E76);
+Color boxColour = const Color(0xFFCEB5E7);
+Color boxColourLight = const Color.fromARGB(255, 221, 207, 235);
+Color box2Colour = const Color(0xFFF9E9EC);
+
 class FoodSocialMediaApp extends StatefulWidget {
   @override
   _FoodSocialMediaAppState createState() => _FoodSocialMediaAppState();
@@ -27,7 +32,6 @@ class FoodSocialMediaApp extends StatefulWidget {
 class _FoodSocialMediaAppState extends State<FoodSocialMediaApp> {
   int currentIndex = 0;
   final List<Widget> screens = [
-    const AuthPage(),
     const HomePage(), // Initially set to AuthPage
     ExplorePage(),
     PhotoSharingPage(),
@@ -82,7 +86,7 @@ class _FoodSocialMediaAppState extends State<FoodSocialMediaApp> {
             );
           } else {
             // User is not authenticated, show the authentication page
-            return const AuthPage();
+            return const SignUpPage();
           }
         },
       ),
