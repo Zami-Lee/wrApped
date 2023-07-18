@@ -26,21 +26,19 @@ class _SignUpPageState extends State<SignUpPage> {
       );
       final User? user = userCredential.user;
       if (user != null) {
-        // Get the username from a text field or any other input method
         final String username = _usernameController.text;
-        // Store user details in Firestore
+        // create a new document in Firestore to store the user's information
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'email': user.email,
-          'username': username,
+          'username': username
         });
         print('Signup successful. User: ${user.email}, Username: $username');
       } else {
         print('User creation failed');
       }
     } catch (e) {
-      // print('Signup failed: $e');
       setState(() {
-        _errorMessage = 'Signup failed: $e';
+        _errorMessage = 'signup failed: $e';
       });
     }
   }

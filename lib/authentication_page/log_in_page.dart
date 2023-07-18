@@ -22,10 +22,9 @@ class _LogInPageState extends State<LogInPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      print('Login successful. User: ${userCredential.user!.email}');
     } catch (e) {
       setState(() {
-        _errorMessage = 'Login failed: $e';
+        _errorMessage = 'login failed: $e';
       });
     }
   }

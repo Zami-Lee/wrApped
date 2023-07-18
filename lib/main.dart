@@ -32,7 +32,7 @@ class FoodSocialMediaApp extends StatefulWidget {
 class _FoodSocialMediaAppState extends State<FoodSocialMediaApp> {
   int currentIndex = 0;
   final List<Widget> screens = [
-    const HomePage(), // Initially set to AuthPage
+    const HomePage(),
     ExplorePage(),
     PhotoSharingPage(),
   ];
