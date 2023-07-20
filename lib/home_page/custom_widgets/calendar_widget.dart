@@ -17,63 +17,76 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  String expense = "expense";
-  double price = 0;
-
   Map<DateTime, Map<String, double>> dailySpendings = {};
 
   void addExpenseDialogue(BuildContext context, DateTime date) {
     DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     String formattedDate = dateFormat.format(date);
 
+    TextEditingController expenseController = TextEditingController();
+    TextEditingController priceController = TextEditingController();
+    String priceErrorText = '';
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(formattedDate, style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold)),
-          content: Column(
-            children: [
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    expense = value;
-                  });
-                },
-                decoration: const InputDecoration(
-                  labelText: 'expense',
-                ),
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text(formattedDate, style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold)),
+              content: Column(
+                children: [
+                  TextField(
+                    controller: expenseController,
+                    decoration: const InputDecoration(
+                      labelText: 'expense',
+                    ),
+                  ),
+                  TextField(
+                    controller: priceController,
+                    onChanged: (value) {
+                      double? parsedValue = double.tryParse(value);
+                      if (parsedValue != null) {
+                        setState(() {
+                          priceErrorText = '';
+                        });
+                      } else {
+                        setState(() {
+                          priceErrorText = 'error - please enter a numerical value';
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'price',
+                      errorText: priceErrorText.isNotEmpty ? priceErrorText : null,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(boxColour),
+                    ),
+                    onPressed: () {
+                      String expense = expenseController.text;
+                      double price = double.tryParse(priceController.text) ?? 0;
+                      if (price != 0 && priceErrorText.isEmpty) {
+                        setState(() {
+                          (dailySpendings[date] ??= {})[expense] = price;
+                        });
+                        Navigator.of(context).pop();
+                        // small workaround to immediately close both to refresh
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: const Text('add expense'),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    price = double.tryParse(value) ?? 0;
-                  });
-                },
-                decoration: const InputDecoration(
-                  labelText: 'price',
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(boxColour),
-                ),
-                onPressed: () {
-                  setState(() {
-                    (dailySpendings[date] ??= {})[expense] = price;
-                  });
-                  Navigator.of(context).pop();
-                  // small workaround to immediately close both
-                  Navigator.of(context).pop();
-                  // TODO: change colour of all dates with entries
-                },
-                child: const Text('add expense'),
-              ),
-              const SizedBox(height: 20),
-            ],
-          )
+            );
+          },
         );
-      }
+      },
     );
   }
 
@@ -86,7 +99,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       builder: (BuildContext context) {
         return Theme(
           data: Theme.of(context).copyWith(
-          dialogBackgroundColor: Colors.white, // Set the desired background color
+          dialogBackgroundColor: Colors.white,
         ),
         child: AlertDialog(
           title: Text(formattedDate, style: TextStyle(color: mainTextColour, fontWeight: FontWeight.bold)),
@@ -122,7 +135,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           actions: [
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(boxColour), // Set the desired background color
+                backgroundColor: MaterialStateProperty.all<Color>(boxColour),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -160,24 +173,23 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               alignment: Alignment.centerLeft,
               child: Container(
                 decoration: BoxDecoration(
-                  color: box2Colour, // Set the desired background color
+                  color: box2Colour,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TableCalendar(
                   calendarStyle: CalendarStyle(
                     selectedDecoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: boxColourLight, // Change the color here for selected date
+                      color: boxColourLight,
                     ),
                     todayDecoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: boxColour, // Change the color here for today's date
+                      color: boxColour,
                     ),
                   ),
                   calendarFormat: _calendarFormat,
                   availableCalendarFormats: const {
                     CalendarFormat.month: 'Month',
-                    // CalendarFormat.week: 'Week',
                   },
                   focusedDay: _focusedDay,
                   firstDay: DateTime.utc(2022, 1, 1),
@@ -192,6 +204,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                       _showDatePopup(context, selectedDay);
                     });
                   },
+
                 ),
               ),
             ),
